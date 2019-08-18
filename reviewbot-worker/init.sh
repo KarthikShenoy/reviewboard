@@ -1,0 +1,1 @@
+reviewbot worker -b amqp://reviewbot_worker:reviewbot_worker@"$RABBITMQ_HOST":5672/

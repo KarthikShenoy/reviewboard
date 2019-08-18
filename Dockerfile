@@ -12,7 +12,7 @@ RUN pip install --upgrade pip
 RUN pip install "django-storages<1.3"
 RUN apt install -y apache2 apache2-utils ssl-cert apache2-utils ssl-cert libapache2-mod-wsgi
 RUN apt install -y default-libmysqlclient-dev default-mysql-client
-RUN pip install mysql-python 
+RUN pip install mysql-python reviewbot-extension
 
 RUN pip install ReviewBoard
 

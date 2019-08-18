@@ -1,5 +1,16 @@
 version: '2'
 services:
+    rabbitmq:
+      restart: always
+      build: ./rabbitmq
+    reviewbot-worker:
+      restart: always
+      build: ./reviewbot-worker
+      environment: 
+            - RABBITMQ_HOST=rabbitmq
+      depends_on: 
+            - rabbitmq
+            - reviewboard
     mysql:
         restart: always
         image: mysql
