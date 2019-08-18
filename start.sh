@@ -2,13 +2,14 @@ mkdir -p /var/www/
 while ! mysqladmin ping -h"$DBHOST" --silent; do
     sleep 1
 done
-echo "ServerName localhost" >> /etc/apache2/apache2.conf
+echo "ServerName $HOSTNAME" >> /etc/apache2/apache2.conf
+echo "$HOSTNAME" >> /etc/hostname
 apache2ctl restart
 # CONFFILE=/var/www/reviewboard/conf/settings_local.py
 
 
     rb-site install --noinput \
-        --domain-name="localhost" \
+        --domain-name="$HOSTNAME" \
         --site-root="/" \
         --static-url=static/ --media-url=media/ \
         --db-type=mysql \
@@ -21,9 +22,9 @@ apache2ctl restart
         --admin-user=admin --admin-password=admin --admin-email=admin@example.com \
         /var/www/reviewboard/
 rb-site upgrade /var/www/reviewboard
-chown www-data:www-data -R /var/www/reviewboard/data /var/www/reviewboard/htdocs/
-ls -la /var/www/reviewboard/conf/
-ls -la /var/www/reviewboard/htdocs/
+chown www-data:www-data -R /var/www/reviewboard/data /var/www/reviewboard/htdocs/ /var/www/reviewboard/logs
+sed -i "/ALLOWED_HOSTS/c\ALLOWED_HOSTS=['localhost','$HOSTNAME']" /var/www/reviewboard/conf/settings_local.py
+cat /var/www/reviewboard/conf/settings_local.py
 cp /var/www/reviewboard/conf/apache-wsgi.conf /etc/apache2/sites-available/rb.conf
 cd /etc/apache2/sites-enabled/
 ln -s ../sites-available/rb.conf

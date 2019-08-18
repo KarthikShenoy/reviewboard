@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Create Rabbitmq user
-( sleep 5 ; \
+( sleep 15 ; \
 rabbitmqctl add_user reviewbot_worker reviewbot_worker 2>/dev/null ; \
 rabbitmqctl set_permissions -p / reviewbot_worker  ".*" ".*" ".*" ; \
 echo "*** User 'reviewbot_worker' with password 'reviewbot_worker' completed. ***" ; \
